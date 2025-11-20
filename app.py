@@ -5,6 +5,8 @@ from models.cardapio.prato import Prato
 from models.cardapio.sobremesa import Sobremesa
 
 
+# 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
+
 def finalizando_app():
     '''Função que finaliza o app'''
     exibir_subtitulo('Finalizando o APP 👋')
@@ -94,4 +96,5 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()
