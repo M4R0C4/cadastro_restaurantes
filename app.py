@@ -1,5 +1,9 @@
 from models.restaurante import Restaurante
 import os
+from models.cardapio.bebida import Bebida
+from models.cardapio.prato import Prato
+from models.cardapio.sobremesa import Sobremesa
+
 
 def finalizando_app():
     '''Função que finaliza o app'''
@@ -14,7 +18,6 @@ def exibir_subtitulo(texto):
     print(texto)
     print(linha)
     print()
-
 
 def opcao_invalida():
     '''Essa função exibe a mensagem de opção invalida e chama outra função que retorna ao Menu Principal'''
@@ -41,7 +44,7 @@ def escolhendo_opcao_menu_principal():
             Restaurante.listar_restaurantes()
             voltar_menu_principal()
         elif opcao_escolhida == 3:
-            #alternar_status_restaurante()
+            alternar_status_restaurante()
             pass
         elif opcao_escolhida == 4:
             finalizando_app()
@@ -55,15 +58,37 @@ def cadastrar_restaurante():
     nome_restaurante = input('Nome do restaurante: ')
     categoria_restaurante = input('Categoria restaurante: ')
     novo_restaurante = Restaurante(nome_restaurante,categoria_restaurante)
-    print(f'\n O restaurante {nome_restaurante} de categoria{categoria_restaurante}, foi criado com sucesso!')
+    print(f'\n O restaurante {nome_restaurante} de categoria: {categoria_restaurante}, foi criado com sucesso!')
     voltar_menu_principal()
     #return nome_restaurante
 
+def alternar_status_restaurante():
+    print('Alterando Status do Restaurante!')
+    restaurante = input('Digite o nome do restaurante: ')
+    for restaurante in Restaurante.catalogo_de_restaurantes:
+        restaurante.alternar_estado()       
+    voltar_menu_principal()
+
+restaurante1 = Restaurante('Spoletto','Massas')
+restaurante2 = Restaurante('Habbibs','Arabe')
+
+bebida_simples = Bebida('Suco de Laranja',7.5,'600ml')
+bebida_alcolica = Bebida('Caipirinha', 5,'500ml')
+
+prato1 = Sobremesa('Docin', 15.5, 'Feijão com carne suculentas do porco.')
+prato2 = Prato('Salada Ceasar',22,'Salada de folhas e molho agridoce.')
+
+bebida_simples.aplicar_desconto()
+prato1.aplicar_desconto()
+
+restaurante1.adicionar_no_cardapio(bebida_simples)
+restaurante1.adicionar_no_cardapio(prato1)
 
 def main():
-    os.system('cls')
-    exibindo_menu_principal()
-    escolhendo_opcao_menu_principal()
+    restaurante1.exibir_cardapio
+#    os.system('cls')
+#    exibindo_menu_principal()
+#    escolhendo_opcao_menu_principal()
 
 #    Restaurante.listar_restaurantes()
 

@@ -1,5 +1,5 @@
 from models.avaliacao import Avaliacao
-
+from models.cardapio.item_cardapio import ItemCardapio
 class Restaurante: #Classe Restaurante com 3 caracteristicas: nome, categoria e ativo
     catalogo_de_restaurantes = [] #local onde será armazenado a lista de restaurantes
 
@@ -8,6 +8,7 @@ class Restaurante: #Classe Restaurante com 3 caracteristicas: nome, categoria e 
         self._categoria = categoria.upper() #busca na iteração, a CATEGORIA atribuida a classe Restaurante
         self._ativo = False #atributo privado
         self._avaliacao = []
+        self._cardapio = []
         Restaurante.catalogo_de_restaurantes.append(self) #assim que o novo restaurante é criado na classe Restaurantes, é adicionado no catálogo
 
     def __str__(self): #método que exibe na forma de string as características da classe
@@ -45,4 +46,18 @@ class Restaurante: #Classe Restaurante com 3 caracteristicas: nome, categoria e 
         media= round(soma_das_notas/quantidade_de_notas,1)
         return media
     
-
+    def adicionar_no_cardapio(self,item):
+        if isinstance(item, ItemCardapio): #avalia se o item, a ser adicionado, é instancia do ItemCardapio
+            self._cardapio.append(item) # Caso seja, será adicionado
+    
+    @property
+    def exibir_cardapio(self):
+        print(f'Cardapio do restaurante {self._nome}')
+        for i,item in enumerate(self._cardapio, start=1):
+            if hasattr(item,'descricao'):
+                mensagem_prato = f'{i}. Nome: {item._nome} - Preço: R${item._preco:.2f} - Descrição {item.descricao}'
+                print(mensagem_prato)
+            else:
+                mensagem_bebida = mensagem = f'{i}. Nome: {item._nome} - Preço: R${item._preco:.2f} - Tamanho: {item.tamanho}'
+                print(mensagem_bebida)
+            
