@@ -26,6 +26,10 @@ class Restaurante: #Classe Restaurante com 3 caracteristicas: nome, categoria e 
     def ativo(self):
         return '✅' if self._ativo else '❌'
         #estrutura emoji verde se ativo for True, se não for, emoji vermelho
+    
+    @property
+    def nome(self):
+        return f'{self._nome}'
 
     def alternar_estado(self):
         self._ativo = not self._ativo
@@ -50,6 +54,10 @@ class Restaurante: #Classe Restaurante com 3 caracteristicas: nome, categoria e 
         if isinstance(item, ItemCardapio): #avalia se o item, a ser adicionado, é instancia do ItemCardapio
             self._cardapio.append(item) # Caso seja, será adicionado
     
+    def remover_do_cardapio(self,item):
+        if isinstance(item,ItemCardapio):
+            self._cardapio.remove(item)
+
     @property
     def exibir_cardapio(self):
         print(f'Cardapio do restaurante {self._nome}')

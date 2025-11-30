@@ -1,0 +1,7 @@
+Funcionalidades:
+- Opções para restaurantes: Adicionar/Modificar cardápio, Alternar Status, Criar novo restaurante, retornar quando mudar de ideia
+- Escolhendo um restaurante: buscar um restaurante e quando não encontrar, perguntar se deseja criar ou retornar ao menu anterior.
+
+Melhorias:
+- Melhorar a função voltar_menu_principal para que ela não seja uma importação circular
+

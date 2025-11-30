@@ -1,96 +1,93 @@
-from models.restaurante import Restaurante
 import os
-from models.cardapio.bebida import Bebida
+'''Importações para criar e manipular de objetos'''
+from models.restaurante import Restaurante
 from models.cardapio.prato import Prato
+from models.cardapio.bebida import Bebida
 from models.cardapio.sobremesa import Sobremesa
+'''Importações de funções para exibir informações'''
+from funcoes.exibicao.exibir_menu_principal import exibindo_menu_principal
+
+'''Importações de funções para realizar ações'''
+from funcoes.acoes.escolhendo_opcao_menu_principal import escolhendo_opcao_menu_principal
 
 
-# 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
-
-def finalizando_app():
-    '''Função que finaliza o app'''
-    exibir_subtitulo('Finalizando o APP 👋')
-    print(' ')
-
-def exibir_subtitulo(texto):
-    '''Essa função exibe o subtítulo da opção escolhida no Menu Principal'''
-    os.system('cls')
-    linha = '*' * len(texto)
-    print(linha)
-    print(texto)
-    print(linha)
-    print()
-
-def opcao_invalida():
-    '''Essa função exibe a mensagem de opção invalida e chama outra função que retorna ao Menu Principal'''
-    print('A opção escolhida é invalida. Tente novamente\n')
-    voltar_menu_principal()
-
-def voltar_menu_principal():
-    '''função que retorna ao menu principal'''
-    input('Digite qualquer tela para retornar ao Menu Principal: ')
-    main()
-
-def exibindo_menu_principal():
-    print('1. Cadastrar restaurante 🛠')
-    print('2. Listar restaurante 🏘')
-    print('3. Área de Ativação/Desativação de Restaurantes')
-    print('4. Sair\n')
-
-def escolhendo_opcao_menu_principal():
-    try:
-        opcao_escolhida = int(input('Escolha uma opção: '))
-        if opcao_escolhida == 1:
-            cadastrar_restaurante()
-        elif opcao_escolhida == 2:
-            Restaurante.listar_restaurantes()
-            voltar_menu_principal()
-        elif opcao_escolhida == 3:
-            alternar_status_restaurante()
-            pass
-        elif opcao_escolhida == 4:
-            finalizando_app()
-        else:
-            opcao_invalida()
-    except:
-        opcao_invalida()
 
 
-def cadastrar_restaurante():
-    nome_restaurante = input('Nome do restaurante: ')
-    categoria_restaurante = input('Categoria restaurante: ')
-    novo_restaurante = Restaurante(nome_restaurante,categoria_restaurante)
-    print(f'\n O restaurante {nome_restaurante} de categoria: {categoria_restaurante}, foi criado com sucesso!')
-    voltar_menu_principal()
-    #return nome_restaurante
 
-def alternar_status_restaurante():
-    print('Alterando Status do Restaurante!')
-    restaurante = input('Digite o nome do restaurante: ')
-    for restaurante in Restaurante.catalogo_de_restaurantes:
-        restaurante.alternar_estado()       
-    voltar_menu_principal()
 
-restaurante1 = Restaurante('Spoletto','Massas')
-restaurante2 = Restaurante('Habbibs','Arabe')
+def menu_novo_restaurante(novo_restaurante):
+    print('O que deseja fazer a seguir\n')
+    print('1. Inserir itens no cardápio')
+    print('2. Ativar restaurante')
+    print('3. Voltar ao Menu Principal')
 
-bebida_simples = Bebida('Suco de Laranja',7.5,'600ml')
-bebida_alcolica = Bebida('Caipirinha', 5,'500ml')
+    escolha = int(input('Digite o Nº da Opção: '))
+    if escolha == 1:
+        print('adicionar novos itens do cardápio')
+        itens_cardapio(novo_restaurante)
+    elif escolha == 2:
+        print('adiconar/desativar restaurante')
+    elif escolha == 3: 
+        print('Voltar ao menu anterior')
 
-prato1 = Sobremesa('Docin', 15.5, 'Feijão com carne suculentas do porco.')
-prato2 = Prato('Salada Ceasar',22,'Salada de folhas e molho agridoce.')
+def itens_cardapio(novo_restaurante):
+    acabou = False
+    print(f'Itens que podem ser inseridos no cardápio do restaurante {novo_restaurante}')
+    print('1. Bebidas')
+    print('2. Pratos')
+    print('3. Sobremesas')
+    escolha = int(input('Escolha o tipo de item a ser inserido: '))
+    if escolha == 1:
+        print('inserir bebida')
+        inserir_bebida(novo_restaurante)
+    elif escolha == 2:
+        print('inserir pratos')
+        inserir_prato(novo_restaurante)
+    elif escolha == 3:
+        print('inserir sobremesas')
+        inserir_sobremesa(novo_restaurante)
+    while not acabou:
+        itens_cardapio()
+        print('Deseja inserir algum outro item? [S/N]')
+        proposicao = input('').upper()
+        if proposicao in 'SIM':
+            continue
+        elif proposicao in "NNÃONAO":
+            acabou = True
 
-bebida_simples.aplicar_desconto()
-prato1.aplicar_desconto()
+def inserir_sobremesa(novo_restaurante):
+    nome_da_sobremesa = str(input('Nome da Sobremesa: '))
+    preco_sobremesa = str(input('Preço da Sobremesa: '))
+    descricao_sobremesa = str(input('Descrição breve da Sobremesa: '))
+    nova_sobremesa = Sobremesa(nome_da_sobremesa,preco_sobremesa,descricao_sobremesa)
+    novo_restaurante.adicionar_no_cardapio(nova_sobremesa)
+    print(f'A sobremesa {nova_sobremesa} foi inserido no restaurante {novo_restaurante}')
 
-restaurante1.adicionar_no_cardapio(bebida_simples)
-restaurante1.adicionar_no_cardapio(prato1)
+def inserir_prato(novo_restaurante):
+    nome_da_prato = str(input('Nome da Prato: '))
+    preco_prato = str(input('Preço da Prato: '))
+    descricao_prato = str(input('Descrição breve da Prato: '))
+    novo_prato = Prato(nome_da_prato,preco_prato,descricao_prato)
+    novo_restaurante.adicionar_no_cardapio(novo_prato)
+    print(f'A prato {novo_prato} foi inserido no restaurante {novo_restaurante}')
+
+def inserir_bebida(novo_restaurante):
+    nome_da_bebida = str(input('Nome da Bebida: '))
+    preco_bebida = str(input('Preço da Bebida: '))
+    descricao_bebida = str(input('Descrição breve da Bebida: '))
+    nova_bebida = Bebida(nome_da_bebida,preco_bebida,descricao_bebida)
+    novo_restaurante.adicionar_no_cardapio(nova_bebida)
+    print(f'A bebida {nova_bebida} foi inserido no restaurante {novo_restaurante}')
+
+def cancelar_operacao():
+    pass
+
+
 
 def main():
-    restaurante1.exibir_cardapio
-#    os.system('cls')
-#    exibindo_menu_principal()
-#    escolhendo_opcao_menu_principal()
+    os.system('cls')
+    exibindo_menu_principal()
+    escolhendo_opcao_menu_principal()
 
 #    Restaurante.listar_restaurantes()
 
